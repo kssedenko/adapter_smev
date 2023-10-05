@@ -1,0 +1,12 @@
+---
+VPS_servers:
+  - 91.149.240.129
+  - 45.140.169.83
+  - 45.140.169.84
+
+vps_test1: 91.149.240.129
+vps_test2: 45.140.169.83
+vps_test3: 45.140.169.84
+
+adapter_integration_db_password: "{{ vault_adapter_integration_db_password }}"
+adapter_db_password: "{{ vault_adapter_db_password }}"
