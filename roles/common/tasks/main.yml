@@ -1,0 +1,5 @@
+---
+- name: Install common packages
+  ansible.builtin.yum:
+    name: "{{ common_packages }}"
+    update_cache: true

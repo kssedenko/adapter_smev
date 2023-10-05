@@ -1,0 +1,45 @@
+---
+# установить путь до java, запустить скрипт 5-install-adapter.sh
+- name: Create user smev
+  user:
+    name: smev
+    comment: application user
+    shell: /bin/bash
+    create_home: true
+    state: present
+
+- name: Create /opt/adapter
+  file:
+    path: /opt/adapter
+    owner: smev
+    state: directory
+
+- name: Copy adapter distr to opt/adapter
+  copy:
+    src: smev_adapter.run
+    dest: /opt/adapter
+    mode: 0755
+    #owner: smev
+    #group: smev
+
+- name: Run adapter installation script
+  ansible.builtin.expect:
+    command: sh /opt/adapter/smev_adapter.run --confirm
+    responses:
+      Question:
+        - yes
+        - yes
+
+
+- name: Restart adapter
+  shell: /opt/adapter/adapter.sh start
+  #remote_src: true
+  
+# - name: Copy adapter script to opt/adapter
+#   copy:
+#     src: 5-install-adapter.sh
+#     dest: /opt/adapter
+#     mode: 0755
+
+# - name: Install adapter script
+#   shell: /opt/adapter/5-install-adapter.sh

@@ -1,0 +1,53 @@
+---
+- name: Install PostgresSQL
+  ansible.builtin.yum:
+    #name: "postgresql-server {{ pg_server_version }}"
+    name: postgresql-server
+
+- name: Find out if PostgreSQL is initialized
+  ansible.builtin.stat:
+    path: "/var/lib/pgsql/data/pg_hba.conf"
+  register: postgres_data
+
+- name: Initialize PostgreSQL
+  shell: "postgresql-setup initdb"
+  when: not postgres_data.stat.exists
+
+- name: Start and enebale PostgreSQL
+  systemd:
+    name: postgresql
+    enabled: true
+    state: started
+
+- name: Create adapter db
+  postgresql_db:
+    name: "adapter"
+    owner: "adapter"
+    encoding: UTF-8
+  become: true
+  become_user: postgres
+
+- name: Create adapter user
+  postgresql_user:
+    name: "adapter"
+    password: "{{ adapter_db_password }}" #add to vault file
+  become: true
+  become_user: postgres
+  no_log: true
+
+- name: Create adapter_integration db
+  postgresql_db:
+    name: "adapter_integration"
+    owner: "adapter_integration"
+    encoding: UTF-8
+  become: true
+  become_user: postgres
+
+- name: Create adapter_integration user
+  postgresql_user:
+    name: "adapter_integration"
+    password: "{{ adapter_integration_db_password }}"
+  become: true
+  become_user: postgres
+  no_log: true
+  
