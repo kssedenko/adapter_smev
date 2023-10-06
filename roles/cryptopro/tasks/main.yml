@@ -1,0 +1,18 @@
+---
+# не закончена установка, без проверки
+
+- name: Copy cryptopro files
+  copy:
+    src: java-csp-5.0.41975.zip
+    dest: /usr/lib/jvm
+    mode: 0755
+
+- name: Unarchive package
+  unarchive:
+    src: /usr/lib/jvm/java-csp-5.0.41975.zip
+    dest: /usr/lib/jvm/
+    remote_src: true
+
+- name: Install adapter script
+  shell: ./setup_gui.sh /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.x86_64/jre
+ 
