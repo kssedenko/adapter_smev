@@ -2,7 +2,7 @@
 - hosts: all
   become: true
   roles:
-    - { role: common, tags: common }
-    - { role: pg-server, tags: pg-server }
-    #- { role: smev-adapter, tags: smev-adapter }
-    
+    # - { role: common, tags: common }
+    # - { role: pg-server, tags: pg-server }
+    # - { role: smev-adapter, tags: smev-adapter }
+   - { role: cryptopro, tags: cryptopro }
